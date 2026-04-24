@@ -24,7 +24,8 @@ export function ConfigBanner({ ready }: { ready: boolean }) {
         <Badge variant={ready ? "success" : "warning"}>{ready ? "Connected" : "Setup needed"}</Badge>
       </CardHeader>
       <CardContent className="grid gap-2 text-sm text-slate-600">
-        <p>`NEXT_PUBLIC_SUPABASE_URL` and a publishable key power auth, data, and realtime.</p>
+        <p>`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` power Google sign-in with Clerk.</p>
+        <p>`NEXT_PUBLIC_SUPABASE_URL` and a publishable key power data, exports, and realtime.</p>
         <p>`SUPABASE_SERVICE_ROLE_KEY` enables protected exports and the rent sync cron route.</p>
         <p>`CRON_SECRET` secures the Vercel monthly auto-generation endpoint.</p>
       </CardContent>

@@ -3,6 +3,8 @@ export type RentStatus = "paid" | "pending";
 
 export interface UserRow {
   id: string;
+  clerk_user_id: string | null;
+  email: string;
   name: string;
   phone: string;
   role: UserRole;

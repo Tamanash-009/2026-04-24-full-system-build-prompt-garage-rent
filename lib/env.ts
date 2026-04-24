@@ -33,3 +33,15 @@ export function hasCronSecret() {
 export function getAdminInviteCode() {
   return process.env.ADMIN_INVITE_CODE ?? "";
 }
+
+export function getClerkPublishableKey() {
+  return process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "";
+}
+
+export function getClerkSecretKey() {
+  return process.env.CLERK_SECRET_KEY ?? "";
+}
+
+export function hasClerkEnv() {
+  return Boolean(getClerkPublishableKey() && getClerkSecretKey());
+}

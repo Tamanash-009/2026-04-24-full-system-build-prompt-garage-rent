@@ -1,6 +1,8 @@
 import { cache } from "react";
+import { auth } from "@clerk/nextjs/server";
 
 import { buildDashboardMetrics, flattenRentLedger, getRecentPayments } from "@/lib/analytics";
+import { hasClerkEnv } from "@/lib/env";
 import { buildTenancyFinanceSummary } from "@/lib/rent";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { PropertyRow, TenancyRecord, TenancyRow, UserRow } from "@/lib/types";
@@ -8,41 +10,52 @@ import type { PropertyRow, TenancyRecord, TenancyRow, UserRow } from "@/lib/type
 interface AuthState {
   configured: boolean;
   supabase: any;
-  user: any;
+  userId: string | null;
   profile: UserRow | null;
 }
 
 export const getAuthState = cache(async () => {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   if (!supabase) {
     return {
       configured: false,
       supabase: null,
-      user: null,
+      userId: null,
       profile: null
     };
   }
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (!hasClerkEnv()) {
     return {
       configured: true,
       supabase,
-      user: null,
+      userId: null,
       profile: null
     };
   }
 
-  const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).maybeSingle();
+  const { userId } = await auth();
+
+  if (!userId) {
+    return {
+      configured: true,
+      supabase,
+      userId: null,
+      profile: null
+    };
+  }
+
+  const { data: profile } = await supabase
+    .from("users")
+    .select("*")
+    .eq("clerk_user_id", userId)
+    .maybeSingle();
 
   return {
     configured: true,
     supabase,
-    user,
+    userId,
     profile: (profile as UserRow | null) ?? null
   };
 }) as () => Promise<AuthState>;

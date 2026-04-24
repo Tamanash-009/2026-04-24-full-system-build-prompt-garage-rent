@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import { ArrowRight, BadgeIndianRupee, Building2, ShieldCheck, Zap } from "lucide-react";
 
 import { ConfigBanner } from "@/components/shared/config-banner";
+import { getRoleRedirectPath } from "@/lib/auth-utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { hasSupabaseEnv } from "@/lib/env";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
-import type { UserRow } from "@/lib/types";
+import { hasClerkEnv, hasSupabaseEnv } from "@/lib/env";
+import { getAuthState } from "@/lib/data";
 
 const features = [
   {
@@ -30,26 +30,14 @@ const features = [
 ];
 
 export default async function HomePage() {
-  const supabase = createServerSupabaseClient();
+  const authState = await getAuthState();
 
-  if (supabase) {
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
+  if (authState.userId && authState.profile) {
+    redirect(getRoleRedirectPath(authState.profile.role));
+  }
 
-    if (user) {
-      const { data: profile } = await supabase
-        .from("users")
-        .select("*")
-        .eq("id", user.id)
-        .single<UserRow>();
-
-      if (profile?.role === "admin") {
-        redirect("/dashboard");
-      }
-
-      redirect("/tenants");
-    }
+  if (authState.userId) {
+    redirect("/onboarding");
   }
 
   return (
@@ -102,7 +90,7 @@ export default async function HomePage() {
             </Button>
           </div>
 
-          <ConfigBanner ready={hasSupabaseEnv()} />
+          <ConfigBanner ready={hasSupabaseEnv() && hasClerkEnv()} />
         </div>
 
         <Card className="relative overflow-hidden">

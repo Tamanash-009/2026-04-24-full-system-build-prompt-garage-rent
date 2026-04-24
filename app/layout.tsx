@@ -1,8 +1,11 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata, Viewport } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 
 import { PwaRegister } from "@/components/providers/pwa-register";
 import { AppToaster } from "@/components/providers/toaster";
+import { clerkAppearance } from "@/lib/clerk";
+import { hasClerkEnv } from "@/lib/env";
 import "@/app/globals.css";
 
 const manrope = Manrope({
@@ -20,8 +23,9 @@ export const metadata: Metadata = {
   description: "Production-ready garage rent, advance, and electricity management.",
   applicationName: "GarageFlow",
   icons: {
-    icon: "/logo-mark.svg",
-    apple: "/logo-mark.svg"
+    icon: [{ url: "/icon-512.png", sizes: "512x512", type: "image/png" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "512x512", type: "image/png" }],
+    shortcut: ["/icon-512.png"]
   }
 };
 
@@ -34,12 +38,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const app = (
+    <>
+      <PwaRegister />
+      {children}
+      <AppToaster />
+    </>
+  );
+
   return (
     <html lang="en">
       <body className={`${manrope.variable} ${spaceGrotesk.variable}`}>
-        <PwaRegister />
-        {children}
-        <AppToaster />
+        {hasClerkEnv() ? (
+          <ClerkProvider appearance={clerkAppearance} dynamic afterSignOutUrl="/">
+            {app}
+          </ClerkProvider>
+        ) : (
+          app
+        )}
       </body>
     </html>
   );

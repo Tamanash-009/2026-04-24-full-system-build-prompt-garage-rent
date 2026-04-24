@@ -1,12 +1,12 @@
 "use client";
 
+import { SignOutButton } from "@clerk/nextjs";
 import { formatDistanceToNowStrict } from "date-fns";
 import { BellRing, LogOut, UserCircle2 } from "lucide-react";
 
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { Button } from "@/components/ui/button";
 import { useAppStore } from "@/lib/store/app-store";
-import { signOutAction } from "@/lib/actions/auth";
 
 export function TopBar({
   title,
@@ -52,12 +52,12 @@ export function TopBar({
           </div>
         </div>
 
-        <form action={signOutAction}>
+        <SignOutButton redirectUrl="/">
           <Button variant="secondary" size="sm">
             <LogOut className="h-4 w-4" />
             Sign out
           </Button>
-        </form>
+        </SignOutButton>
       </div>
     </header>
   );

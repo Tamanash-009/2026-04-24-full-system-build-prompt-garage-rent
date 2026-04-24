@@ -16,6 +16,8 @@ describe("dashboard analytics", () => {
         status: "active",
         user: {
           id: "user-1",
+          clerk_user_id: "user_clerk_1",
+          email: "tenant@example.com",
           name: "Aarav",
           phone: "999",
           role: "tenant",

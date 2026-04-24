@@ -1,10 +1,10 @@
 # GarageFlow
 
-GarageFlow is a production-oriented garage rental management system built with Next.js 14, TypeScript, TailwindCSS, shadcn/ui-style components, Supabase Auth/Postgres/Realtime, Recharts, Zustand, PDF export, and Excel export.
+GarageFlow is a production-oriented garage rental management system built with Next.js 14, TypeScript, TailwindCSS, shadcn/ui-style components, Clerk Google sign-in, Supabase Postgres/Realtime, Recharts, Zustand, PDF export, and Excel export.
 
 ## What's included
 
-- Admin and tenant authentication flow
+- Clerk Google authentication with onboarding for admin and tenant roles
 - Admin dashboard with analytics, charts, recent payments, and live metrics
 - Tenant workspace for rent history, dues, and electricity bills
 - Monthly rent auto-generation from tenancy start date
@@ -35,6 +35,9 @@ GarageFlow is a production-oriented garage rental management system built with N
 - `/` landing page
 - `/sign-in`
 - `/sign-up`
+- `/sso-callback`
+- `/auth-complete`
+- `/onboarding`
 - `/dashboard`
 - `/tenants`
 - `/payments`
@@ -48,6 +51,12 @@ GarageFlow is a production-oriented garage rental management system built with N
 Copy `.env.example` to `.env.local` and set:
 
 ```bash
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/auth-complete
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/auth-complete
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
@@ -63,23 +72,25 @@ ADMIN_INVITE_CODE=
 
 1. Use Node `20.18.1` or another Node 20/22 runtime.
 2. Run `npm install`.
-3. Apply the Supabase migration in [supabase/migrations/202604240001_init.sql](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/supabase/migrations/202604240001_init.sql).
-4. Add the environment variables.
-5. Run `npm run dev`.
+3. Apply the Supabase migrations in order:
+   - [supabase/migrations/202604240001_init.sql](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/supabase/migrations/202604240001_init.sql)
+   - [supabase/migrations/202604250002_clerk_auth.sql](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/supabase/migrations/202604250002_clerk_auth.sql)
+4. In Clerk, enable Google as a social connection and connect the Clerk instance to Supabase.
+5. Add the environment variables.
+6. Run `npm run dev`.
+
+If you are migrating an existing Supabase Auth install, backfill `public.users.email` before switching traffic to Clerk so Google sign-in can reconnect users to their current tenancies and properties.
 
 ## Verification completed
 
 - `npm run lint`
-- `npx tsc --noEmit`
+- `npm run typecheck`
 - `npm test`
+- `npm run build`
 
 ## Live deployment
 
 - Production URL: [https://2026-04-24-full-system-build-prompt.vercel.app](https://2026-04-24-full-system-build-prompt.vercel.app)
-
-## Notes about this machine
-
-The current local desktop environment is using an unsupported global Node runtime for Next.js 14 native builds, so a full local `next build` is not reliable here. The project is pinned to Node `20.18.1`, which matches the intended Vercel deployment runtime.
 
 ## Android install support
 

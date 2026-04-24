@@ -2,9 +2,10 @@
 
 ## 1. Supabase setup
 
-Run the SQL migration in Supabase SQL Editor:
+Run the SQL migrations in Supabase SQL Editor:
 
 - [supabase/migrations/202604240001_init.sql](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/supabase/migrations/202604240001_init.sql)
+- [supabase/migrations/202604250002_clerk_auth.sql](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/supabase/migrations/202604250002_clerk_auth.sql)
 
 This creates:
 
@@ -17,11 +18,31 @@ This creates:
 - RLS policies
 - realtime table publication
 - automatic rent sync functions and tenancy trigger
+- Clerk-compatible user linking and RLS
 
-## 2. Vercel environment variables
+If you are migrating an existing project from Supabase Auth to Clerk, update `public.users.email` for current admin and tenant rows before letting users sign in with Google.
+
+## 2. Clerk setup
+
+1. Create a Clerk application.
+2. Enable Google as a social connection.
+3. Use Clerk's Supabase connection flow or manually connect the Clerk instance to Supabase Third-Party Auth.
+4. Set your Clerk redirect URLs to include:
+   - `http://localhost:3000/sign-in`
+   - `http://localhost:3000/sign-up`
+   - your production Vercel domain equivalents
+5. Keep `/auth-complete` as the post-login handoff route.
+
+## 3. Vercel environment variables
 
 Add these in the Vercel project settings:
 
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+- `NEXT_PUBLIC_CLERK_SIGN_IN_URL`
+- `NEXT_PUBLIC_CLERK_SIGN_UP_URL`
+- `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL`
+- `NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL`
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
@@ -33,7 +54,7 @@ Optional fallback:
 
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-## 3. Runtime
+## 4. Runtime
 
 Use Node `20.18.1` on Vercel.
 
@@ -48,7 +69,7 @@ Current production deployment on April 25, 2026:
 
 - [https://2026-04-24-full-system-build-prompt.vercel.app](https://2026-04-24-full-system-build-prompt.vercel.app)
 
-## 4. Cron schedule
+## 5. Cron schedule
 
 `vercel.json` is configured to call `/api/cron/sync-rent` at `35 18 * * *`, which equals `00:05 IST` every day.
 
@@ -57,7 +78,7 @@ That daily schedule is intentional:
 - it guarantees the first day of a new month is created promptly
 - it self-heals if a previous cron run was missed
 
-## 5. Android install flow
+## 6. Android install flow
 
 After deployment:
 
@@ -66,7 +87,7 @@ After deployment:
 3. Use `Add to Home screen`.
 4. The app launches in standalone mode with the GarageFlow branding.
 
-## 5b. Android APK wrapper flow
+## 6b. Android APK wrapper flow
 
 GarageFlow also includes a Capacitor Android wrapper project.
 
@@ -86,7 +107,7 @@ If you need to rebuild locally:
 3. Run `npm run android:assets`.
 4. Run `npm run android:apk` or open the native project in Android Studio.
 
-## 6. Current publish blockers on this machine
+## 7. Current publish blockers on this machine
 
 As of April 25, 2026:
 
@@ -95,19 +116,21 @@ As of April 25, 2026:
 
 Once GitHub auth is refreshed, the repo is ready to publish remotely.
 
-## 7. Recommended publish sequence
+## 8. Recommended publish sequence
 
 1. `gh auth login`
 2. Create or link the GitHub repository
 3. `git push -u origin main`
 4. Confirm the live Vercel deployment URL
 
-## 8. Validation checklist
+## 9. Validation checklist
 
+- confirm Clerk Google sign-in redirects to `/auth-complete`
+- confirm onboarding links a Clerk user to an existing email-matched profile when applicable
 - `npm run lint`
-- `npx tsc --noEmit`
+- `npm run typecheck`
 - `npm test`
-- confirm Supabase Auth sign-in
+- `npm run build`
 - confirm tenancy creation generates pending rent rows
 - confirm marking rent paid updates the dashboard live
 - confirm electricity bills appear in tenant and admin views

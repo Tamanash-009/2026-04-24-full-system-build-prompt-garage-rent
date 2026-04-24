@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 import { hasSupabaseEnv } from "@/lib/env";
@@ -10,15 +11,16 @@ import { useAppStore } from "@/lib/store/app-store";
 const watchedTables = ["rent_payments", "electricity", "tenancies", "properties"];
 
 export function LiveSync() {
+  const { getToken, isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
   const touchRealtimeSync = useAppStore((state) => state.touchRealtimeSync);
 
   useEffect(() => {
-    if (!hasSupabaseEnv()) {
+    if (!hasSupabaseEnv() || !isLoaded || !isSignedIn) {
       return;
     }
 
-    const supabase = createClient();
+    const supabase = createClient(() => getToken());
     const channel = supabase.channel("garageflow-live");
 
     watchedTables.forEach((table) => {
@@ -41,7 +43,7 @@ export function LiveSync() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [router, touchRealtimeSync]);
+  }, [getToken, isLoaded, isSignedIn, router, touchRealtimeSync]);
 
   return null;
 }

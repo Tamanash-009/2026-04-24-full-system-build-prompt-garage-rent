@@ -1,11 +1,35 @@
-import type { NextRequest } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
 
-import { updateSession } from "@/lib/supabase/middleware";
+import { hasClerkEnv } from "@/lib/env";
 
-export async function middleware(request: NextRequest) {
-  return updateSession(request);
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/tenants(.*)",
+  "/payments(.*)",
+  "/electricity(.*)",
+  "/onboarding(.*)",
+  "/auth-complete(.*)",
+  "/api/export(.*)"
+]);
+
+const clerkHandler = clerkMiddleware(async (auth, request) => {
+  if (isProtectedRoute(request)) {
+    await auth.protect();
+  }
+});
+
+export default function middleware(request: NextRequest, event: NextFetchEvent) {
+  if (!hasClerkEnv()) {
+    return NextResponse.next();
+  }
+
+  return clerkHandler(request, event);
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/tenants/:path*", "/payments/:path*", "/electricity/:path*", "/sign-in", "/sign-up"]
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/(api|trpc)(.*)"
+  ]
 };

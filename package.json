@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit --incremental false",
     "test": "vitest run",
     "test:watch": "vitest",
     "android:shell": "node scripts/build-native-shell.mjs",
@@ -20,12 +21,12 @@
     "android:apk": "npm run android:shell && npx cap build android --androidreleasetype APK"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.39.3",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
-    "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.49.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

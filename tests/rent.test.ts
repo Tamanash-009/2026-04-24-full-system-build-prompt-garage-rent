@@ -75,6 +75,8 @@ describe("rent logic", () => {
       status: "active",
       user: {
         id: "user-1",
+        clerk_user_id: "user_clerk_1",
+        email: "tenant@example.com",
         name: "Arjun Mehta",
         phone: "9999999999",
         role: "tenant",

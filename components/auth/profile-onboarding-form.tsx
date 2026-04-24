@@ -1,31 +1,39 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { signUpAction } from "@/lib/actions/auth";
+import { completeOnboardingAction } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export function SignUpForm() {
+export function ProfileOnboardingForm({
+  defaultName,
+  defaultEmail,
+  defaultPhone = "",
+  defaultRole = "tenant"
+}: {
+  defaultName: string;
+  defaultEmail: string;
+  defaultPhone?: string;
+  defaultRole?: "admin" | "tenant";
+}) {
   const [isPending, startTransition] = useTransition();
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState<"admin" | "tenant">("tenant");
+  const [name, setName] = useState(defaultName);
+  const [phone, setPhone] = useState(defaultPhone);
+  const [role, setRole] = useState<"admin" | "tenant">(defaultRole);
   const [inviteCode, setInviteCode] = useState("");
 
   return (
     <Card className="w-full max-w-xl">
       <CardHeader>
-        <CardTitle className="text-3xl">Create your workspace account</CardTitle>
+        <CardTitle className="text-3xl">Finish your workspace profile</CardTitle>
         <CardDescription>
-          Tenant accounts can self-register. Admin registration also supports an optional invite code.
+          Google sign-in is ready. Add your role and phone once so GarageFlow can open the correct
+          workspace and keep your records synced.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -34,11 +42,9 @@ export function SignUpForm() {
           onSubmit={(event) => {
             event.preventDefault();
             startTransition(async () => {
-              const result = await signUpAction({
+              const result = await completeOnboardingAction({
                 name,
                 phone,
-                email,
-                password,
                 role,
                 inviteCode
               });
@@ -46,13 +52,14 @@ export function SignUpForm() {
               if (result?.error) {
                 toast.error(result.error);
               }
-
-              if (result?.success) {
-                toast.success(result.success);
-              }
             });
           }}
         >
+          <div className="grid gap-2">
+            <Label htmlFor="email">Google account</Label>
+            <Input id="email" value={defaultEmail} readOnly disabled />
+          </div>
+
           <div className="grid gap-2">
             <Label htmlFor="name">Full name</Label>
             <Input
@@ -94,46 +101,14 @@ export function SignUpForm() {
             <Input
               id="inviteCode"
               value={inviteCode}
-              placeholder="Required only for admin sign-up"
+              placeholder="Required only for admin setup"
               onChange={(event) => setInviteCode(event.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              placeholder="tenant@garageflow.app"
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              placeholder="At least 6 characters"
-              onChange={(event) => setPassword(event.target.value)}
-              required
-            />
-          </div>
-
           <Button type="submit" size="lg" disabled={isPending}>
-            {isPending ? "Creating account..." : "Create account"}
+            {isPending ? "Saving profile..." : "Continue to GarageFlow"}
           </Button>
-
-          <p className="text-sm text-muted-foreground">
-            Already signed up?{" "}
-            <Link href="/sign-in" className="font-semibold text-cyan-800 hover:text-cyan-900">
-              Sign in instead
-            </Link>
-            .
-          </p>
         </form>
       </CardContent>
     </Card>

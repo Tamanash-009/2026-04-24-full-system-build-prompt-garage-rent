@@ -1,8 +1,8 @@
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
+import { auth } from "@clerk/nextjs/server";
 import { createClient as createServiceClient } from "@supabase/supabase-js";
 
 import {
+  hasClerkEnv,
   getServiceRoleKey,
   getSupabasePublishableKey,
   getSupabaseUrl,
@@ -10,33 +10,27 @@ import {
   hasSupabaseEnv
 } from "@/lib/env";
 
-type CookieMutation = {
-  name: string;
-  value: string;
-  options?: Record<string, unknown>;
-};
-
-export function createServerSupabaseClient() {
+export async function createServerSupabaseClient() {
   if (!hasSupabaseEnv()) {
     return null;
   }
 
-  const cookieStore = cookies();
-
-  return createServerClient(getSupabaseUrl(), getSupabasePublishableKey(), {
-    cookies: {
-      getAll() {
-        return cookieStore.getAll();
-      },
-      setAll(cookiesToSet: CookieMutation[]) {
-        try {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options as never);
-          });
-        } catch {
-          // Server components can't always set cookies during rendering.
-        }
+  if (!hasClerkEnv()) {
+    return createServiceClient(getSupabaseUrl(), getSupabasePublishableKey(), {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false
       }
+    });
+  }
+
+  const { getToken } = await auth();
+
+  return createServiceClient(getSupabaseUrl(), getSupabasePublishableKey(), {
+    accessToken: async () => (await getToken()) ?? null,
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false
     }
   });
 }

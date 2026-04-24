@@ -10,8 +10,12 @@ export default async function ProtectedLayout({
 }) {
   const authState = await getAuthState();
 
-  if (!authState.supabase || !authState.user || !authState.profile) {
+  if (!authState.supabase || !authState.userId) {
     redirect("/sign-in");
+  }
+
+  if (!authState.profile) {
+    redirect("/onboarding");
   }
 
   return <AppShell profile={authState.profile}>{children}</AppShell>;

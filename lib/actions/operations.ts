@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 import { z } from "zod";
 
 import { calculateElectricityUnits } from "@/lib/rent";
@@ -40,21 +41,18 @@ const electricityPaymentSchema = z.object({
 });
 
 async function requireAdminContext() {
-  const supabase = createServerSupabaseClient();
+  const { userId } = await auth();
+  const supabase = await createServerSupabaseClient();
 
-  if (!supabase) {
+  if (!userId || !supabase) {
     throw new Error("Supabase credentials are not configured.");
   }
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    throw new Error("You need to sign in first.");
-  }
-
-  const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from("users")
+    .select("*")
+    .eq("clerk_user_id", userId)
+    .maybeSingle();
   const typedProfile = (profile as UserRow | null) ?? null;
 
   if (!typedProfile || typedProfile.role !== "admin") {
