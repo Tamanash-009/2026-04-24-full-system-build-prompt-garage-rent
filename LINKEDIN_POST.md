@@ -12,6 +12,7 @@ What’s inside:
 - electricity meter tracking and billing
 - PDF and Excel exports
 - installable Android-friendly PWA with custom branding
+- Capacitor-based Android wrapper support with custom icon and splash assets
 
 The goal was simple: make rent operations feel fast, modern, and reliable even for non-technical users.
 
@@ -21,6 +22,7 @@ A few details I’m especially happy with:
 - live dashboard refreshes on payment changes
 - production-ready SQL migration with RLS policies
 - polished glassmorphism UI with mobile-friendly flows
+- Android app packaging support built into the repo
 
 This project was a strong reminder that “internal tools” don’t have to feel internal. Good UX, real-time data, and careful workflow design can completely change how admin teams operate.
 

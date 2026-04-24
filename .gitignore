@@ -9,3 +9,8 @@ dist
 public/sw.js
 public/workbox-*.js
 tsconfig.tsbuildinfo
+native-shell
+android/.gradle
+android/build
+android/app/build
+android/local.properties

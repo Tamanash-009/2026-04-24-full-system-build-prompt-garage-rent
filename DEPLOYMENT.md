@@ -62,6 +62,24 @@ After deployment:
 3. Use `Add to Home screen`.
 4. The app launches in standalone mode with the GarageFlow branding.
 
+## 5b. Android APK wrapper flow
+
+GarageFlow also includes a Capacitor Android wrapper project.
+
+Before building the APK locally:
+
+1. Install Android Studio and the Android SDK.
+2. Set `CAPACITOR_ANDROID_SERVER_URL` to the deployed GarageFlow HTTPS URL.
+3. Run `npm run android:sync`.
+4. Run `npm run android:assets`.
+5. Run `npm run android:apk` or open the native project in Android Studio.
+
+Current machine result on April 25, 2026:
+
+- Android project scaffold: successful
+- Android icon and splash generation: successful
+- APK compile: blocked by missing Android SDK
+
 ## 6. Current publish blockers on this machine
 
 As of April 25, 2026:

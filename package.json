@@ -11,7 +11,13 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "android:shell": "node scripts/build-native-shell.mjs",
+    "android:add": "npm run android:shell && npx cap add android",
+    "android:sync": "npm run android:shell && npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:assets": "npx @capacitor/assets generate --android --iconBackgroundColor=#0f172a --iconBackgroundColorDark=#020617 --splashBackgroundColor=#0f172a --splashBackgroundColorDark=#020617",
+    "android:apk": "npm run android:shell && npx cap build android --androidreleasetype APK"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.1",
@@ -37,6 +43,10 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@capacitor/android": "^8.3.1",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1",
     "@types/node": "^22.13.10",
     "@types/pdfkit": "^0.17.2",
     "@types/react": "^18.3.12",

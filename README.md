@@ -13,6 +13,7 @@ GarageFlow is a production-oriented garage rental management system built with N
 - PDF and Excel ledger exports
 - Realtime refresh through Supabase changes
 - Android-friendly installable PWA experience
+- Capacitor Android wrapper project with generated native icons and splash assets
 - Supabase SQL migration with RLS, triggers, and rent sync functions
 - Vercel cron configuration for automatic monthly rent synchronization
 
@@ -86,6 +87,20 @@ GarageFlow ships as an installable PWA:
 - standalone launch mode
 
 For Chrome on Android, open the deployed site and choose `Add to Home screen`.
+
+## Android APK support
+
+This repo now also includes a Capacitor Android wrapper:
+
+- [capacitor.config.ts](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/capacitor.config.ts)
+- [ANDROID_APP.md](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/ANDROID_APP.md)
+- [android](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android)
+
+Current machine status on April 25, 2026:
+
+- the native Android project scaffolds successfully
+- native icons and splash assets generate successfully
+- APK compilation is blocked only because the Android SDK is not installed on this machine
 
 ## Key files
 
