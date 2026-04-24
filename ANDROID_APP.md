@@ -1,6 +1,6 @@
 # Android APK Support
 
-GarageFlow now includes a Capacitor-based Android wrapper path in this repo.
+GarageFlow includes a Capacitor-based Android wrapper path in this repo.
 
 ## What is included
 
@@ -17,7 +17,7 @@ GarageFlow is a server-rendered Next.js + Supabase app. Because of that, the And
 Set this before syncing or building Android:
 
 ```bash
-CAPACITOR_ANDROID_SERVER_URL=https://your-deployed-garageflow-url.vercel.app
+CAPACITOR_ANDROID_SERVER_URL=https://2026-04-24-full-system-build-prompt.vercel.app
 ```
 
 ## Commands
@@ -34,9 +34,8 @@ npm run android:apk
 ## Expected local requirements
 
 - Node 20
-- Android Studio
 - Android SDK
-- Java/JDK configured for Gradle
+- JDK 21 configured for Gradle
 
 ## Suggested flow
 
@@ -45,7 +44,7 @@ npm run android:apk
 3. Run `npm run android:add` once.
 4. Run `npm run android:assets`.
 5. Run `npm run android:sync`.
-6. Open Android Studio with `npm run android:open`.
+6. Open Android Studio with `npm run android:open` if you want to inspect the native project.
 7. Build the debug or release APK.
 
 ## Current verification result
@@ -54,7 +53,12 @@ As of April 25, 2026:
 
 - `npx cap add android` completed successfully
 - `npm run android:assets` completed successfully
-- Gradle build is currently blocked only because `ANDROID_HOME` / Android SDK is not configured on this machine
+- `npm run android:sync` completed successfully against the live Vercel deployment
+- Gradle debug build completed successfully
+- Gradle release build completed successfully
+- debug APK: [android/app/build/outputs/apk/debug/app-debug.apk](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android/app/build/outputs/apk/debug/app-debug.apk)
+- release APK: [android/app/build/outputs/apk/release/app-release-unsigned.apk](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android/app/build/outputs/apk/release/app-release-unsigned.apk)
+- release signing is still required before Play Store distribution
 
 ## Branding assets
 

@@ -2,7 +2,7 @@
 
 Built and shipped `GarageFlow`, a full-stack garage rental management system designed for operators who need clean rent visibility without spreadsheet chaos.
 
-What’s inside:
+What's inside:
 
 - Next.js 14 + TypeScript admin and tenant experience
 - Supabase Auth, Postgres, and realtime updates
@@ -16,7 +16,7 @@ What’s inside:
 
 The goal was simple: make rent operations feel fast, modern, and reliable even for non-technical users.
 
-A few details I’m especially happy with:
+A few details I'm especially happy with:
 
 - no blank-screen states
 - live dashboard refreshes on payment changes
@@ -24,8 +24,10 @@ A few details I’m especially happy with:
 - polished glassmorphism UI with mobile-friendly flows
 - Android app packaging support built into the repo
 
-This project was a strong reminder that “internal tools” don’t have to feel internal. Good UX, real-time data, and careful workflow design can completely change how admin teams operate.
+This project was a strong reminder that "internal tools" do not have to feel internal. Good UX, real-time data, and careful workflow design can completely change how admin teams operate.
 
-If you’re building modern dashboards with Next.js, Supabase, or installable web apps, I’d love to connect and swap notes.
+Live app: [https://2026-04-24-full-system-build-prompt.vercel.app](https://2026-04-24-full-system-build-prompt.vercel.app)
+
+If you're building modern dashboards with Next.js, Supabase, or installable web apps, I'd love to connect and swap notes.
 
 #Nextjs #TypeScript #Supabase #Vercel #PWA #WebDevelopment #FullStack #DashboardDesign #StartupBuild #ReactJS

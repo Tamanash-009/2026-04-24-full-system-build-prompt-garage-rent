@@ -44,6 +44,10 @@ Suggested Vercel project settings:
 - Build command: `next build`
 - Output directory: default
 
+Current production deployment on April 25, 2026:
+
+- [https://2026-04-24-full-system-build-prompt.vercel.app](https://2026-04-24-full-system-build-prompt.vercel.app)
+
 ## 4. Cron schedule
 
 `vercel.json` is configured to call `/api/cron/sync-rent` at `35 18 * * *`, which equals `00:05 IST` every day.
@@ -66,40 +70,37 @@ After deployment:
 
 GarageFlow also includes a Capacitor Android wrapper project.
 
-Before building the APK locally:
-
-1. Install Android Studio and the Android SDK.
-2. Set `CAPACITOR_ANDROID_SERVER_URL` to the deployed GarageFlow HTTPS URL.
-3. Run `npm run android:sync`.
-4. Run `npm run android:assets`.
-5. Run `npm run android:apk` or open the native project in Android Studio.
-
 Current machine result on April 25, 2026:
 
 - Android project scaffold: successful
 - Android icon and splash generation: successful
-- APK compile: blocked by missing Android SDK
+- debug APK build: successful
+- release APK build: successful
+- release output: [android/app/build/outputs/apk/release/app-release-unsigned.apk](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android/app/build/outputs/apk/release/app-release-unsigned.apk)
+- debug output: [android/app/build/outputs/apk/debug/app-debug.apk](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android/app/build/outputs/apk/debug/app-debug.apk)
+
+If you need to rebuild locally:
+
+1. Set `CAPACITOR_ANDROID_SERVER_URL` to the deployed GarageFlow HTTPS URL.
+2. Run `npm run android:sync`.
+3. Run `npm run android:assets`.
+4. Run `npm run android:apk` or open the native project in Android Studio.
 
 ## 6. Current publish blockers on this machine
 
 As of April 25, 2026:
 
-- `vercel whoami` resolves, but `vercel --prod --yes` fails because the locally stored token is invalid and needs `vercel login`
-- `gh auth status` fails because the GitHub token in keyring is invalid and needs `gh auth login`
+- Vercel deployment is already live and working
+- `gh auth status` still fails because the GitHub token in keyring is invalid and needs `gh auth login`
 
-Once those are refreshed, the project is ready to publish.
+Once GitHub auth is refreshed, the repo is ready to publish remotely.
 
 ## 7. Recommended publish sequence
 
-1. `vercel login`
-2. `gh auth login`
-3. `git init`
-4. `git branch -M main`
-5. `git add .`
-6. `git commit -m "Build GarageFlow rent management system"`
-7. Create or link the GitHub repository
-8. `git push -u origin main`
-9. `vercel --prod --yes`
+1. `gh auth login`
+2. Create or link the GitHub repository
+3. `git push -u origin main`
+4. Confirm the live Vercel deployment URL
 
 ## 8. Validation checklist
 

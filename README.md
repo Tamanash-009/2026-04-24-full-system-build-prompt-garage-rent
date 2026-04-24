@@ -2,7 +2,7 @@
 
 GarageFlow is a production-oriented garage rental management system built with Next.js 14, TypeScript, TailwindCSS, shadcn/ui-style components, Supabase Auth/Postgres/Realtime, Recharts, Zustand, PDF export, and Excel export.
 
-## What’s included
+## What's included
 
 - Admin and tenant authentication flow
 - Admin dashboard with analytics, charts, recent payments, and live metrics
@@ -73,6 +73,10 @@ ADMIN_INVITE_CODE=
 - `npx tsc --noEmit`
 - `npm test`
 
+## Live deployment
+
+- Production URL: [https://2026-04-24-full-system-build-prompt.vercel.app](https://2026-04-24-full-system-build-prompt.vercel.app)
+
 ## Notes about this machine
 
 The current local desktop environment is using an unsupported global Node runtime for Next.js 14 native builds, so a full local `next build` is not reliable here. The project is pinned to Node `20.18.1`, which matches the intended Vercel deployment runtime.
@@ -90,7 +94,7 @@ For Chrome on Android, open the deployed site and choose `Add to Home screen`.
 
 ## Android APK support
 
-This repo now also includes a Capacitor Android wrapper:
+This repo also includes a Capacitor Android wrapper:
 
 - [capacitor.config.ts](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/capacitor.config.ts)
 - [ANDROID_APP.md](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/ANDROID_APP.md)
@@ -100,7 +104,9 @@ Current machine status on April 25, 2026:
 
 - the native Android project scaffolds successfully
 - native icons and splash assets generate successfully
-- APK compilation is blocked only because the Android SDK is not installed on this machine
+- debug APK built successfully at [android/app/build/outputs/apk/debug/app-debug.apk](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android/app/build/outputs/apk/debug/app-debug.apk)
+- release APK built successfully at [android/app/build/outputs/apk/release/app-release-unsigned.apk](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android/app/build/outputs/apk/release/app-release-unsigned.apk)
+- the release artifact is unsigned, which is normal before Play Store or side-load distribution signing
 
 ## Key files
 
