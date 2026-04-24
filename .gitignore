@@ -8,3 +8,4 @@ coverage
 dist
 public/sw.js
 public/workbox-*.js
+tsconfig.tsbuildinfo
