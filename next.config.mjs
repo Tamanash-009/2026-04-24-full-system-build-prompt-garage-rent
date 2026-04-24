@@ -4,7 +4,6 @@ const nextConfig = {
       bodySizeLimit: "2mb"
     }
   },
-  swcMinify: false,
   images: {
     remotePatterns: []
   }
