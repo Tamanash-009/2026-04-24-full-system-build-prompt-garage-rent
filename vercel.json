@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "crons": [
+    {
+      "path": "/api/cron/sync-rent",
+      "schedule": "35 18 * * *"
+    }
+  ],
+  "functions": {
+    "app/api/export/pdf/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/export/excel/route.ts": {
+      "maxDuration": 60
+    }
+  }
+}
