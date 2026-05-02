@@ -45,3 +45,7 @@ export function getClerkSecretKey() {
 export function hasClerkEnv() {
   return Boolean(getClerkPublishableKey() && getClerkSecretKey());
 }
+
+export function shouldExposeTechnicalSetupDetails() {
+  return process.env.NODE_ENV !== "production";
+}
