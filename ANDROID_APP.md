@@ -49,7 +49,7 @@ npm run android:apk
 
 ## Current verification result
 
-As of April 25, 2026:
+As of May 2, 2026:
 
 - `npx cap add android` completed successfully
 - `npm run android:assets` completed successfully
@@ -58,6 +58,7 @@ As of April 25, 2026:
 - Gradle release build completed successfully
 - debug APK: [android/app/build/outputs/apk/debug/app-debug.apk](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android/app/build/outputs/apk/debug/app-debug.apk)
 - release APK: [android/app/build/outputs/apk/release/app-release-unsigned.apk](/C:/Users/chakr/Documents/Codex/2026-04-24-full-system-build-prompt-garage-rent/android/app/build/outputs/apk/release/app-release-unsigned.apk)
+- production shell target: [https://2026-04-24-full-system-build-prompt.vercel.app](https://2026-04-24-full-system-build-prompt.vercel.app)
 - release signing is still required before Play Store distribution
 
 ## Branding assets

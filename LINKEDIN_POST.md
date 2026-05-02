@@ -5,14 +5,14 @@ Built and shipped `GarageFlow`, a full-stack garage rental management system des
 What's inside:
 
 - Next.js 14 + TypeScript admin and tenant experience
-- Supabase Auth, Postgres, and realtime updates
+- Clerk Google sign-in + Supabase Postgres and realtime updates
 - auto-generated monthly rent ledgers
 - pending vs paid detection
 - advance adjustment logic
 - electricity meter tracking and billing
 - PDF and Excel exports
 - installable Android-friendly PWA with custom branding
-- Capacitor-based Android wrapper support with custom icon and splash assets
+- Capacitor-based Android wrapper with custom icon and splash assets
 
 The goal was simple: make rent operations feel fast, modern, and reliable even for non-technical users.
 
@@ -21,6 +21,7 @@ A few details I'm especially happy with:
 - no blank-screen states
 - live dashboard refreshes on payment changes
 - production-ready SQL migration with RLS policies
+- Google login with role-based onboarding
 - polished glassmorphism UI with mobile-friendly flows
 - Android app packaging support built into the repo
 
