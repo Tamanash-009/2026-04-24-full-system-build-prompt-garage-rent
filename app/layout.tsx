@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   description: "Production-ready garage rent, advance, and electricity management.",
   applicationName: "GarageFlow",
   icons: {
-    icon: [{ url: "/icon-512.png", sizes: "512x512", type: "image/png" }],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "512x512", type: "image/png" }],
-    shortcut: ["/icon-512.png"]
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+    shortcut: "/favicon.svg"
   }
 };
 
